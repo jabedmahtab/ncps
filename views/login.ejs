@@ -1,0 +1,15 @@
+<%- include('partials/header', { user: null }) %>
+<section class="form-wrap">
+  <h2>লগইন</h2>
+  <% if (error) { %><div class="alert"><%= error %></div><% } %>
+  <form method="POST" action="/login" class="form">
+    <label>ইমেইল
+      <input type="email" name="email" required />
+    </label>
+    <label>পাসওয়ার্ড
+      <input type="password" name="password" required />
+    </label>
+    <button class="btn" type="submit">লগইন</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

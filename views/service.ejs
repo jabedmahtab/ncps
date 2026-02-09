@@ -1,0 +1,16 @@
+<%- include('partials/header', { user }) %>
+<section class="service-page">
+  <div class="service-hero">
+    <h2><%= service.name %></h2>
+    <p>নিচের যেকোনো অপশনে ক্লিক করে অভিযোগ দিন।</p>
+  </div>
+  <div class="grid">
+    <% service.items.forEach(item => { %>
+      <a class="service" href="/complaint/new?service=<%= service.id %>&category=<%= item.key %>">
+        <div class="service-title"><%= item.label %></div>
+        <div class="service-count">অভিযোগ করুন</div>
+      </a>
+    <% }) %>
+  </div>
+</section>
+<%- include('partials/footer') %>

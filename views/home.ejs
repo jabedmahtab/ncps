@@ -1,0 +1,40 @@
+<%- include('partials/header', { user }) %>
+<section class="hero">
+  <div class="hero-text">
+    <h1>NCPS — নাগরিক সুরক্ষা ও সেবা প্ল্যাটফর্ম</h1>
+    <p>জরুরি সহায়তা, অভিযোগ, এবং নিরাপত্তা সেবা এক জায়গায়।</p>
+    <div class="hero-actions">
+      <a class="btn" href="/register">রেজিস্ট্রেশন</a>
+      <a class="ghost" href="/login">লগইন</a>
+    </div>
+  </div>
+  <div class="hero-card">
+    <div class="card-title">দ্রুত সেবা</div>
+    <div class="card-list">
+      <div>Emergency: 999</div>
+      <div>Amber Alert</div>
+      <div>Cyber Security</div>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <h2>সেবা সমূহ</h2>
+  <div class="grid">
+    <% services.forEach(s => { %>
+      <a class="service" href="/service/<%= s.id %>">
+        <div class="service-title"><%= s.name %></div>
+        <div class="service-count"><%= s.items.length %> টি অপশন</div>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<section class="cta">
+  <div>
+    <h3>অভিযোগ জমা দিন, ফলাফল দেখুন</h3>
+    <p>রেজিস্ট্রেশন করে আপনার সব অভিযোগ প্রোফাইলে সংরক্ষণ করুন।</p>
+  </div>
+  <a class="btn" href="/register">রেজিস্ট্রেশন করুন</a>
+</section>
+<%- include('partials/footer') %>

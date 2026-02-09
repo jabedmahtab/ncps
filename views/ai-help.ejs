@@ -1,0 +1,18 @@
+<%- include('partials/header', { user }) %>
+<section class="ai">
+  <h2>AI Help</h2>
+  <p>নিরাপত্তা, অভিযোগ বা জরুরি সহায়তা নিয়ে প্রশ্ন করুন।</p>
+  <form method="POST" action="/ai-help" class="form">
+    <label>আপনার প্রশ্ন
+      <textarea name="question" rows="4" required></textarea>
+    </label>
+    <button class="btn" type="submit">উত্তর দেখুন</button>
+  </form>
+  <% if (answer) { %>
+    <div class="panel">
+      <h4>AI উত্তর</h4>
+      <p><%= answer %></p>
+    </div>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

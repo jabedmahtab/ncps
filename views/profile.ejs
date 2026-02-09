@@ -1,0 +1,35 @@
+<%- include('partials/header', { user }) %>
+<section class="profile">
+  <div class="profile-head">
+    <div>
+      <h2>প্রোফাইল</h2>
+      <div class="muted"><%= user.name %> — <%= user.email %></div>
+    </div>
+    <a class="btn" href="/">নতুন অভিযোগ</a>
+  </div>
+
+  <h3>আমার অভিযোগসমূহ</h3>
+  <% if (!complaints.length) { %>
+    <div class="empty">এখনো কোনো অভিযোগ নেই।</div>
+  <% } else { %>
+    <div class="table">
+      <div class="row head">
+        <div>তারিখ</div>
+        <div>সেবা</div>
+        <div>ক্যাটাগরি</div>
+        <div>স্ট্যাটাস</div>
+        <div>ফলাফল</div>
+      </div>
+      <% complaints.forEach(c => { %>
+        <div class="row">
+          <div><%= new Date(c.created_at).toLocaleDateString('bn-BD') %></div>
+          <div><%= c.service %></div>
+          <div><%= c.category %></div>
+          <div><span class="status"><%= c.status %></span></div>
+          <div>প্রক্রিয়াধীন</div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

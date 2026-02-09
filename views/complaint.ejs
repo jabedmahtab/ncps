@@ -1,0 +1,59 @@
+<%- include('partials/header', { user }) %>
+<section class="form-wrap">
+  <h2>অভিযোগ ফর্ম</h2>
+  <div class="muted"><%= service.name %> › <%= category.label %></div>
+  <% if (error) { %><div class="alert"><%= error %></div><% } %>
+  <% if (success) { %><div class="success"><%= success %></div><% } %>
+  <form method="POST" action="/complaint" class="form" enctype="multipart/form-data">
+    <input type="hidden" name="service_id" value="<%= service.id %>" />
+    <input type="hidden" name="category_key" value="<%= category.key %>" />
+
+    <label>অভিযোগের শিরোনাম
+      <input type="text" name="title" required />
+    </label>
+
+    <label>বিস্তারিত
+      <textarea name="description" rows="5" required></textarea>
+    </label>
+
+    <% if (service.id === 'defence-corruption') { %>
+      <div class="info">এই সেবায় অভিযোগকারীর নাম গোপন রাখা হবে।</div>
+    <% } %>
+
+    <% if (category.key === 'amber_alert') { %>
+      <div class="panel">
+        <h4>Amber Alert তথ্য</h4>
+        <label>শিশুর নাম
+          <input type="text" name="amber_child_name" />
+        </label>
+        <label>বয়স
+          <input type="text" name="amber_child_age" />
+        </label>
+        <label>শেষ দেখা অবস্থান
+          <input type="text" name="amber_last_location" />
+        </label>
+        <label>অন্য তথ্য
+          <textarea name="amber_more_info" rows="3"></textarea>
+        </label>
+        <div class="info">এই তথ্য দিয়ে Amber Alert SMS তৈরি হবে।</div>
+      </div>
+    <% } %>
+
+    <label>ফাইল যুক্ত করুন (ঐচ্ছিক)
+      <input type="file" name="attachment" />
+    </label>
+
+    <div class="panel">
+      <h4>লোকেশন (মানচিত্রে ক্লিক করুন)</h4>
+      <div id="map" class="map"></div>
+      <div class="map-info">
+        <input type="text" name="lat" placeholder="Latitude" id="lat" />
+        <input type="text" name="lng" placeholder="Longitude" id="lng" />
+        <button type="button" class="ghost" id="use-location">বর্তমান লোকেশন</button>
+      </div>
+    </div>
+
+    <button class="btn" type="submit">সাবমিট</button>
+  </form>
+</section>
+<%- include('partials/footer') %>

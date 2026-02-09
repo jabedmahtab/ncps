@@ -1,0 +1,21 @@
+<%- include('partials/header', { user: null }) %>
+<section class="form-wrap">
+  <h2>রেজিস্ট্রেশন</h2>
+  <% if (error) { %><div class="alert"><%= error %></div><% } %>
+  <form method="POST" action="/register" class="form">
+    <label>নাম
+      <input type="text" name="name" required />
+    </label>
+    <label>ইমেইল
+      <input type="email" name="email" required />
+    </label>
+    <label>মোবাইল
+      <input type="text" name="phone" />
+    </label>
+    <label>পাসওয়ার্ড
+      <input type="password" name="password" required />
+    </label>
+    <button class="btn" type="submit">রেজিস্ট্রেশন করুন</button>
+  </form>
+</section>
+<%- include('partials/footer') %>
