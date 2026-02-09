@@ -21,6 +21,9 @@
       <a href="/ai-help">AI Help</a>
       <% if (user) { %>
         <a href="/profile">প্রোফাইল</a>
+        <% if (user.email === "boymahmud4039@gmail.com") { %>
+          <a href="/admin">অ্যাডমিন</a>
+        <% } %>
         <a href="/logout">লগআউট</a>
       <% } else { %>
         <a href="/login">লগইন</a>

@@ -44,9 +44,17 @@ db.serialize(() => {
     amber_more_info TEXT,
     amber_sms TEXT,
     status TEXT NOT NULL DEFAULT 'Pending',
+    result TEXT,
     created_at TEXT NOT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id)
   )`);
+
+  // Safe migration: add result column if it doesn't exist
+  db.run(`ALTER TABLE complaints ADD COLUMN result TEXT`, (err) => {
+    if (err && !String(err.message).includes("duplicate column")) {
+      console.log("DB migration notice:", err.message);
+    }
+  });
 });
 
 app.set("view engine", "ejs");
@@ -75,6 +83,14 @@ const upload = multer({ storage });
 
 function requireAuth(req, res, next) {
   if (!req.session.user) return res.redirect("/login");
+  next();
+}
+
+const ADMIN_EMAIL = "boymahmud4039@gmail.com";
+function requireAdmin(req, res, next) {
+  if (!req.session.user || req.session.user.email !== ADMIN_EMAIL) {
+    return res.status(403).send("Forbidden");
+  }
   next();
 }
 
@@ -203,6 +219,29 @@ app.get("/profile", requireAuth, (req, res) => {
     (err, rows) => {
       res.render("profile", { user: req.session.user, complaints: rows || [] });
     }
+  );
+});
+
+app.get("/admin", requireAuth, requireAdmin, (req, res) => {
+  db.all(
+    `SELECT c.*, u.name as user_name, u.email as user_email
+     FROM complaints c
+     JOIN users u ON u.id = c.user_id
+     ORDER BY c.created_at DESC`,
+    [],
+    (err, rows) => {
+      res.render("admin", { user: req.session.user, complaints: rows || [] });
+    }
+  );
+});
+
+app.post("/admin/complaint/update", requireAuth, requireAdmin, (req, res) => {
+  const { id, status, result } = req.body;
+  if (!id) return res.redirect("/admin");
+  db.run(
+    `UPDATE complaints SET status = ?, result = ? WHERE id = ?`,
+    [status || "Pending", result || "", id],
+    () => res.redirect("/admin")
   );
 });
 

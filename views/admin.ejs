@@ -1,0 +1,53 @@
+<%- include('partials/header', { user }) %>
+<section class="profile">
+  <div class="profile-head">
+    <div>
+      <h2>অ্যাডমিন প্যানেল</h2>
+      <div class="muted">সব অভিযোগের তালিকা ও ফলাফল আপডেট</div>
+    </div>
+  </div>
+
+  <% if (!complaints.length) { %>
+    <div class="empty">কোনো অভিযোগ নেই।</div>
+  <% } else { %>
+    <div class="table admin-table">
+      <div class="row head">
+        <div>তারিখ</div>
+        <div>ব্যবহারকারী</div>
+        <div>সেবা/ক্যাটাগরি</div>
+        <div>স্ট্যাটাস</div>
+        <div>ফলাফল</div>
+        <div>অ্যাকশন</div>
+      </div>
+      <% complaints.forEach(c => { %>
+        <div class="row">
+          <div><%= new Date(c.created_at).toLocaleDateString('bn-BD') %></div>
+          <div>
+            <div><%= c.user_name %></div>
+            <div class="muted"><%= c.user_email %></div>
+          </div>
+          <div>
+            <div><%= c.service %></div>
+            <div class="muted"><%= c.category %></div>
+          </div>
+          <div><span class="status"><%= c.status %></span></div>
+          <div><%= c.result && c.result.trim() ? c.result : "প্রক্রিয়াধীন" %></div>
+          <div>
+            <form method="POST" action="/admin/complaint/update" class="form-inline">
+              <input type="hidden" name="id" value="<%= c.id %>" />
+              <select name="status">
+                <option value="Pending" <%= c.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                <option value="Submitted" <%= c.status === 'Submitted' ? 'selected' : '' %>>Submitted</option>
+                <option value="In Review" <%= c.status === 'In Review' ? 'selected' : '' %>>In Review</option>
+                <option value="Resolved" <%= c.status === 'Resolved' ? 'selected' : '' %>>Resolved</option>
+              </select>
+              <input type="text" name="result" placeholder="ফলাফল লিখুন" value="<%= c.result || '' %>" />
+              <button class="btn" type="submit">আপডেট</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+<%- include('partials/footer') %>

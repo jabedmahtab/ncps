@@ -26,7 +26,7 @@
           <div><%= c.service %></div>
           <div><%= c.category %></div>
           <div><span class="status"><%= c.status %></span></div>
-          <div>প্রক্রিয়াধীন</div>
+          <div><%= c.result && c.result.trim() ? c.result : "প্রক্রিয়াধীন" %></div>
         </div>
       <% }) %>
     </div>
